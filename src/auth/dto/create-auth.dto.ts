@@ -1,1 +1,10 @@
-export class CreateAuthDto {}
+export class CreateAuthDto {
+
+    username: string
+
+    password: string
+
+    email: string
+
+    role: string
+}
