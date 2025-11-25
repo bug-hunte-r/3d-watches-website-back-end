@@ -22,7 +22,7 @@ export class AuthController {
       maxAge: 1000 * 60 * 60 * 48
     })
 
-    const newUser = this.authService.Signup(createUserDto)
+    const newUser = await this.authService.Signup(createUserDto)
 
     res.json({
       newUser

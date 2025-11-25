@@ -9,20 +9,20 @@ import { hashPassHandler } from 'src/config/auth-helper';
 export class AuthService {
     constructor(@InjectModel(User.name) private UserModel: Model<UserDocument>) { }
 
-    async Signup (createUserDto: CreateAuthDto) {
+    async Signup(createUserDto: CreateAuthDto) {
 
-        const isUserExist = await this.UserModel.findOne({username: createUserDto.username})
+        const isUserNameExist = await this.UserModel.findOne({ $or: [{ username: createUserDto.username }, { email: createUserDto.email }] })
 
-        if (isUserExist) {
-            throw new ConflictException('This username is already exist')
+        if (isUserNameExist) {
+            throw new ConflictException('This username or email is already exist')
         }
 
         const hashedPass = await hashPassHandler(createUserDto.password)
 
         const allUsers = await this.UserModel.find({})
 
-        const newUser = new this.UserModel({...createUserDto, password: hashedPass, role: allUsers.length > 0 ?'USER' : 'ADMIN'})
-        newUser.save()
+        const newUser = new this.UserModel({ ...createUserDto, password: hashedPass, role: allUsers.length > 0 ? 'USER' : 'ADMIN' })
+        await newUser.save()
 
         return { message: 'User Signuped successfully' }
     }
