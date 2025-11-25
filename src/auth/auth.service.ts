@@ -1,29 +1,47 @@
-import { ConflictException, Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Signupdto } from './Signup-dto/create-signup.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from 'src/models/User';
 import { Model } from 'mongoose';
-import { hashPassHandler } from 'src/config/auth-helper';
+import { hashPassHandler, verifyPassHandler } from 'src/config/auth-helper';
+import { Logindto } from './Login-dto/create-login.dto';
 
 @Injectable()
 export class AuthService {
     constructor(@InjectModel(User.name) private UserModel: Model<UserDocument>) { }
 
-    async Signup(createUserDto: CreateAuthDto) {
+    async Signup(signupDto: Signupdto) {
 
-        const isUserNameExist = await this.UserModel.findOne({ $or: [{ username: createUserDto.username }, { email: createUserDto.email }] })
+        const isUserNameExist = await this.UserModel.findOne({ $or: [{ username: signupDto.username }, { email: signupDto.email }] })
 
         if (isUserNameExist) {
             throw new ConflictException('This username or email is already exist')
         }
 
-        const hashedPass = await hashPassHandler(createUserDto.password)
+        const hashedPass = await hashPassHandler(signupDto.password)
 
         const allUsers = await this.UserModel.find({})
 
-        const newUser = new this.UserModel({ ...createUserDto, password: hashedPass, role: allUsers.length > 0 ? 'USER' : 'ADMIN' })
+        const newUser = new this.UserModel({ ...signupDto, password: hashedPass, role: allUsers.length > 0 ? 'USER' : 'ADMIN' })
         await newUser.save()
 
         return { message: 'User Signuped successfully' }
+    }
+
+    async Login(loginDto: Logindto) {
+
+        const isUserLogin = await this.UserModel.findOne({ $or: [{ username: loginDto.identifire }, { email: loginDto.identifire }] })
+
+        if (!isUserLogin) {
+            throw new NotFoundException('The username or emial is invalid')
+        }
+
+        const verifyPass = await verifyPassHandler(loginDto.password, isUserLogin.password)
+
+        if (!verifyPass){
+            throw new NotFoundException('The password is invalid')
+        }
+
+        return {message: 'User Loginned Successfully'}
     }
 }
