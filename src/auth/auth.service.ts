@@ -64,4 +64,9 @@ export class AuthService {
 
         return mainUser
     }
+
+    async getAllUsers() {
+        const allUsers = await this.UserModel.find({}).select('-password')
+        return allUsers
+    }
 }

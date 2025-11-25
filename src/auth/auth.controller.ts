@@ -59,4 +59,11 @@ export class AuthController {
     const mainUser = await this.authService.getMe(req)
     return mainUser
   }
+
+  @Get('users')
+  @HttpCode(200)
+  async getAllUsers() {
+    const allUsers = await this.authService.getAllUsers()
+    return allUsers
+  }
 }
