@@ -2,7 +2,7 @@ export class CreateAuthDto {
 
     username: string
 
-    password: string
+    password: any
 
     email: string
 
