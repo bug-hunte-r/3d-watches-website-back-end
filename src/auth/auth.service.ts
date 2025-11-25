@@ -1,10 +1,11 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, Req, UnauthorizedException } from '@nestjs/common';
 import { Signupdto } from './Signup-dto/create-signup.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from 'src/models/User';
 import { Model } from 'mongoose';
-import { hashPassHandler, verifyPassHandler } from 'src/config/auth-helper';
+import { hashPassHandler, verifyPassHandler, verifyTokenHandler } from 'src/config/auth-helper';
 import { Logindto } from './Login-dto/create-login.dto';
+import type { Request } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -43,5 +44,24 @@ export class AuthService {
         }
 
         return {message: 'User Loginned Successfully'}
+    }
+
+    async getMe(@Req() req: Request){
+
+        const token = req.cookies?.['token']
+
+        if (!token) {
+            throw new UnauthorizedException('Token not found')
+        }
+
+        const verifiedToken = await verifyTokenHandler(token)
+
+        if (!verifiedToken) {
+            throw new UnauthorizedException('Token not valid')
+        }
+
+        const mainUser = await this.UserModel.findOne({username: verifiedToken.username}).select('-password')
+
+        return mainUser
     }
 }

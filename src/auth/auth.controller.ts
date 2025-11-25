@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, HttpCode, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpCode, Res, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Signupdto } from './Signup-dto/create-signup.dto';
 import { tokenGenerator } from 'src/config/auth-helper';
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 import { Logindto } from './Login-dto/create-login.dto';
 
 @Controller('auth')
@@ -51,5 +51,12 @@ export class AuthController {
       loginnedUser
     })
 
+  }
+
+  @Get('me')
+  @HttpCode(200)
+  async getMe(@Req() req: Request) {
+    const mainUser = await this.authService.getMe(req)
+    return mainUser
   }
 }

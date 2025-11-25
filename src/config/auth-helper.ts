@@ -20,7 +20,7 @@ const verifyPassHandler = async (password: any, hashedPass: any) => {
 
 const verifyTokenHandler = async (token: any) => {
     try {
-        const verifedToken = verify(token, process.env.privatKey)
+        const verifedToken = verify(token, process.env.PRIVATE_KEY)
         return verifedToken
     } catch (error) {
         console.log(error);
