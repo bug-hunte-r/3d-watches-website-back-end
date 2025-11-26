@@ -34,4 +34,17 @@ export class CartService {
         return { Message: 'Product removed from cart' }
 
     }
+
+    async getUsersProductsInTheCart(@Req() req: Request, id: mongoose.Types.ObjectId) {
+
+        const userId = await this.authService.getMe(req)
+
+        const usersProductInTheCart = await this.CartModel.find({ owner: userId?._id })
+
+        if (!usersProductInTheCart.length) {
+            throw new NotFoundException('Your cart is empty')
+        }
+
+        return {Data: usersProductInTheCart}
+    }
 }

@@ -22,4 +22,11 @@ export class CartController {
     return deleteProductFromUsersCart
   }
 
+  @Get('products')
+  @HttpCode(200)
+  async getUsersProductsInTheCart(@Req() req: Request, @Param('id') id: mongoose.Types.ObjectId) {
+    const usersProductInTheCart = await this.cartService.getUsersProductsInTheCart(req, id)
+    return usersProductInTheCart
+  }
+
 }
