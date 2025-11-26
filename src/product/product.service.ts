@@ -22,6 +22,17 @@ export class ProductService {
     return { Message: 'Product added successfully' }
   }
 
+  async getAllProducts() {
+
+    const allProducts = await this.ProductModel.find()
+
+    if (!allProducts.length) {
+      throw new NotFoundException('Dont have product yet')
+    }
+
+    return allProducts
+  }
+
   async deleteproduct(id: mongoose.Types.ObjectId) {
     const deletedProduct = await this.ProductModel.findByIdAndDelete(id)
 
