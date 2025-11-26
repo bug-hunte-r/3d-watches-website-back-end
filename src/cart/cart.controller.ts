@@ -10,7 +10,7 @@ export class CartController {
 
   @Post('add/:id')
   @HttpCode(201)
-  async addProductToCart(@Req() req: Request, @Param('id') id: mongoose.Types.ObjectId, @Body() createCartDto: CreateCartDto) {
+  async addProductToCart(@Req() req: Request, @Param('id') id: mongoose.Schema.Types.ObjectId, @Body() createCartDto: CreateCartDto) {
     const setUserInfoForCart = await this.cartService.addProductToCart(req, id, createCartDto)
     return setUserInfoForCart
   }
