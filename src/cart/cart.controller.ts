@@ -14,4 +14,12 @@ export class CartController {
     const setUserInfoForCart = await this.cartService.addProductToCart(req, id, createCartDto)
     return setUserInfoForCart
   }
+
+  @Delete('delete/:id')
+  @HttpCode(200)
+  async deleteProductFromUsersCart(@Req() req: Request, @Param('id') id: mongoose.Types.ObjectId) {
+    const deleteProductFromUsersCart = await this.cartService.deleteProductFromUsersCart(req, id)
+    return deleteProductFromUsersCart
+  }
+
 }

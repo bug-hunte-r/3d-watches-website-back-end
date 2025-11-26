@@ -1,4 +1,4 @@
-import { Injectable, Req } from '@nestjs/common';
+import { Injectable, NotFoundException, Req } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { AuthService } from 'src/auth/auth.service';
 import type { Request } from 'express';
@@ -19,5 +19,19 @@ export class CartService {
         await this.CartModel.create({ ...createCartDto, owner: setUserInfoForCart, product: setProductForCart })
 
         return { Message: 'Product added to cart' }
+    }
+
+    async deleteProductFromUsersCart(@Req() req: Request, id: mongoose.Types.ObjectId) {
+
+        const userId = await this.authService.getMe(req)
+
+        const mainProductToDelete = await this.CartModel.findByIdAndDelete({ _id: id, owner: userId })
+
+        if (!mainProductToDelete) {
+            throw new NotFoundException('Product not found')
+        }
+
+        return { Message: 'Product removed from cart' }
+
     }
 }
