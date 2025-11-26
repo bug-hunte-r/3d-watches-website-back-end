@@ -1,9 +1,9 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Product, ProductDocument } from 'src/models/Product';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 
 @Injectable()
 export class ProductService {
@@ -20,6 +20,16 @@ export class ProductService {
     await this.ProductModel.create({ ...createProductDto })
 
     return { Message: 'Product added successfully' }
+  }
+
+  async deleteproduct(id: mongoose.Types.ObjectId) {
+    const deletedProduct = await this.ProductModel.findByIdAndDelete(id)
+
+    if (!deletedProduct){
+      throw new NotFoundException('Product not found')
+    }
+
+    return { Message: 'Product Deleted Successfully' }
   }
 
 }
