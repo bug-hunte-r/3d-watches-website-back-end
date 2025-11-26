@@ -43,7 +43,7 @@ export class AuthService {
             throw new NotFoundException('The password is invalid')
         }
 
-        return {message: 'User Loginned Successfully'}
+        return {message: 'User Logged in Successfully'}
     }
 
     async getMe(@Req() req: Request){
