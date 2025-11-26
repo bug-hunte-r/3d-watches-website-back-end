@@ -1,26 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Product, ProductDocument } from 'src/models/Product';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class ProductService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  constructor(@InjectModel(Product.name) private ProductModel: Model<ProductDocument>) { }
+
+  async addProduct(createProductDto: CreateProductDto) {
+
+    const isProductExist = await this.ProductModel.findOne({ title: createProductDto?.title })
+
+    if (isProductExist) {
+      throw new ConflictException('This product is already been selected')
+    }
+
+    await this.ProductModel.create({ ...createProductDto })
+
+    return { Message: 'Product added successfully' }
   }
 
-  findAll() {
-    return `This action returns all product`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
-  }
-
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} product`;
-  }
 }
