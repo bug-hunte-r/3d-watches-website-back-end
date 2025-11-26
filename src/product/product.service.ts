@@ -53,4 +53,16 @@ export class ProductService {
     return mainProduct
   }
 
+  async updateProduct(id: mongoose.Types.ObjectId, updateProductDto: UpdateProductDto) {
+
+    const updatedproduct = await this.ProductModel.findByIdAndUpdate(id, { ...updateProductDto })
+
+    if (!updatedproduct) {
+      throw new NotFoundException('This product is not found')
+    }
+
+    return { Message: 'Product updated successfully' }
+
+  }
+
 }

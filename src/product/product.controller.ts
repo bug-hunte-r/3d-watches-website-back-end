@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Delete, HttpCode, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Delete, HttpCode, Param, Put } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -34,6 +34,14 @@ export class ProductController {
   async getOneProduct(@Param('id') id: mongoose.Types.ObjectId) {
     const mainProduct = await this.productService.getOneProduct(id)
     return mainProduct
+  }
+
+  @Put('update/:id')
+  @HttpCode(200)
+  async updateProduct(@Param('id') id: mongoose.Types.ObjectId, @Body() updateProductDto: UpdateProductDto){
+
+    const updatedProduct = await this.productService.updateProduct(id, updateProductDto)
+    return updatedProduct
   }
 
 }
