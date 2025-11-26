@@ -62,14 +62,15 @@ export class AuthController {
 
   @Get('users')
   @HttpCode(200)
-  async getAllUsers() {
+  async getAllUsers(@Req() req: Request) {
+    await this.authService.isUserAdmin(req)
     const allUsers = await this.authService.getAllUsers()
     return allUsers
   }
 
   @Get('info')
   @HttpCode(200)
-  async isUserAdmin(@Req() req: Request){
+  async isUserAdmin(@Req() req: Request) {
     const userInfo = await this.authService.isUserAdmin(req)
     return userInfo
   }
