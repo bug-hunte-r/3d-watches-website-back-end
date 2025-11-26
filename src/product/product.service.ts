@@ -25,11 +25,21 @@ export class ProductService {
   async deleteproduct(id: mongoose.Types.ObjectId) {
     const deletedProduct = await this.ProductModel.findByIdAndDelete(id)
 
-    if (!deletedProduct){
+    if (!deletedProduct) {
       throw new NotFoundException('Product not found')
     }
 
     return { Message: 'Product Deleted Successfully' }
+  }
+
+  async getOneProduct(id: mongoose.Types.ObjectId) {
+    const mainProduct = await this.ProductModel.findOne({ _id: id })
+
+    if (!mainProduct) {
+      throw new NotFoundException('Product not found')
+    }
+
+    return mainProduct
   }
 
 }

@@ -17,9 +17,16 @@ export class ProductController {
 
   @Delete('delete/:id')
   @HttpCode(200)
-  async deleteproduct(@Param('id') id: mongoose.Types.ObjectId){
+  async deleteproduct(@Param('id') id: mongoose.Types.ObjectId) {
     const deletedProduct = await this.productService.deleteproduct(id)
     return deletedProduct
+  }
+
+  @Get(':id')
+  @HttpCode(200)
+  async getOneProduct(@Param('id') id: mongoose.Types.ObjectId) {
+    const mainProduct = await this.productService.getOneProduct(id)
+    return mainProduct
   }
 
 }
