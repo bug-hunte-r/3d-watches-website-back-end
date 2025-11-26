@@ -8,7 +8,7 @@ export class Cart{
     @Prop({required: true, type: mongoose.Types.ObjectId, ref: 'User'})
     owner: mongoose.Types.ObjectId
 
-    @Prop({required: true, type: mongoose.Types.ObjectId, ref: 'Product'})
+    @Prop({required: true, type: mongoose.Schema.Types.ObjectId, ref: 'Product'})
     product: mongoose.Types.ObjectId
 
     @Prop({required: true, type: Number})

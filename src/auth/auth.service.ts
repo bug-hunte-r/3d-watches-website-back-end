@@ -71,19 +71,8 @@ export class AuthService {
     }
 
     async isUserAdmin(@Req() req: Request) {
-        const token = req.cookies?.['token']
 
-        if (!token) {
-            throw new UnauthorizedException('Token not found')
-        }
-
-        const verifiedToken = await verifyTokenHandler(token)
-
-        if (!verifiedToken) {
-            throw new UnauthorizedException('Token not valid')
-        }
-
-        const userInfo = await this.UserModel.findOne({ username: verifiedToken.username }).select('-password')
+        const userInfo = await this.getMe(req)
 
         if (userInfo?.role != 'ADMIN') {
             throw new ConflictException('You can not send request for this api')
