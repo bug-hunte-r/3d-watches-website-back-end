@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ProductModule } from './product/product.module';
 import { CartModule } from './cart/cart.module';
 import { ModelLoaderController } from './model-loader/model-loader.controller';
+import { UploadImgsModule } from './upload-imgs/upload-imgs.module';
 
 @Module({
   imports: [AuthModule,
@@ -20,6 +21,7 @@ import { ModelLoaderController } from './model-loader/model-loader.controller';
     }),
     ProductModule,
     CartModule,
+    UploadImgsModule,
   ],
   controllers: [ModelLoaderController],
   providers: [],
