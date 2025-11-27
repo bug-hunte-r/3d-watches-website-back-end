@@ -3,10 +3,11 @@ import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import type { Request } from 'express';
 import mongoose from 'mongoose';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('cart')
 export class CartController {
-  constructor(private readonly cartService: CartService) { }
+  constructor(private readonly cartService: CartService, private readonly authService: AuthService) { }
 
   @Post('add/:id')
   @HttpCode(201)
@@ -25,6 +26,7 @@ export class CartController {
   @Get('products')
   @HttpCode(200)
   async getUsersProductsInTheCart(@Req() req: Request, @Param('id') id: mongoose.Types.ObjectId) {
+    await this.authService.isUserAdmin(req)
     const usersProductInTheCart = await this.cartService.getUsersProductsInTheCart(req, id)
     return usersProductInTheCart
   }

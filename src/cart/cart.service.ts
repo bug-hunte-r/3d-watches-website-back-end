@@ -5,8 +5,6 @@ import type { Request } from 'express';
 import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cart, CartDocument } from 'src/models/Cart';
-import { ProductService } from 'src/product/product.service';
-import { Product, ProductDocument } from 'src/models/Product';
 
 @Injectable()
 export class CartService {

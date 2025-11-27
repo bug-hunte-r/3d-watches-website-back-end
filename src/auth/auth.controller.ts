@@ -68,7 +68,7 @@ export class AuthController {
     return allUsers
   }
 
-  @Get('info')
+  @Get('isUserAdmin')
   @HttpCode(200)
   async isUserAdmin(@Req() req: Request) {
     const userInfo = await this.authService.isUserAdmin(req)
