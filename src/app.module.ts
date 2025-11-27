@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ProductModule } from './product/product.module';
 import { CartModule } from './cart/cart.module';
+import { ModelLoaderController } from './model-loader/model-loader.controller';
 
 @Module({
   imports: [AuthModule,
@@ -20,7 +21,7 @@ import { CartModule } from './cart/cart.module';
     ProductModule,
     CartModule,
   ],
-  controllers: [],
+  controllers: [ModelLoaderController],
   providers: [],
 })
 export class AppModule { }
