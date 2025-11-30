@@ -5,7 +5,7 @@ import { extname, join } from 'path';
 import type { Response } from 'express';
 
 @Controller('upload-imgs')
-export class UploadController {
+export class UploadImgsController {
   @Post('image')
   @UseInterceptors(
     FileInterceptor('file', {
