@@ -11,7 +11,7 @@ export class AuthController {
 
   @Post('signup')
   @HttpCode(201)
-  async Sinup(@Body() signupDto: Signupdto, @Res() res: Response) {
+  async Sinup(@Body() signupDto: Signupdto, @Res({passthrough: true}) res: Response) {
 
     const newUser = await this.authService.Signup(signupDto)
 
@@ -25,7 +25,7 @@ export class AuthController {
       maxAge: 1000 * 60 * 60 * 48
     })
 
-    res.status(201).json({
+    res.json({
       newUser
     })
 
@@ -33,7 +33,7 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(200)
-  async Login(@Body() loginDto: Logindto, @Res() res: Response) {
+  async Login(@Body() loginDto: Logindto, @Res({passthrough: true}) res: Response) {
 
     const loginnedUser = await this.authService.Login(loginDto)
 
@@ -47,7 +47,7 @@ export class AuthController {
       maxAge: 1000 * 60 * 60 * 48
     })
 
-    res.status(200).json({
+    res.json({
       loginnedUser
     })
 
