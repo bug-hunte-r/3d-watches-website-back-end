@@ -1,10 +1,9 @@
 export class Signupdto {
-
     username: string
 
-    password: any
-
     email: string
+
+    password: any
 
     role: string
 }

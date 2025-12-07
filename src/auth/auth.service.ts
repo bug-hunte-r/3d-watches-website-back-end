@@ -13,13 +13,13 @@ export class AuthService {
 
     async Signup(signupDto: Signupdto) {
 
-        const isUserNameExist = await this.UserModel.findOne({ $or: [{ username: signupDto.username }, { email: signupDto.email }] })
+        const isUserNameExist = await this.UserModel.findOne({ $or: [{ username: signupDto?.username }, { email: signupDto?.email }] })
 
         if (isUserNameExist) {
             throw new ConflictException('This username or email is already exist')
         }
 
-        const hashedPass = await hashPassHandler(signupDto.password)
+        const hashedPass = await hashPassHandler(signupDto?.password)
 
         const allUsers = await this.UserModel.find({})
 
@@ -31,13 +31,13 @@ export class AuthService {
 
     async Login(loginDto: Logindto) {
 
-        const isUserLogin = await this.UserModel.findOne({ $or: [{ username: loginDto.identifire }, { email: loginDto.identifire }] })
+        const isUserLogin = await this.UserModel.findOne({ $or: [{ username: loginDto?.identifire }, { email: loginDto?.identifire }] })
 
         if (!isUserLogin) {
             throw new NotFoundException('The username or emial is invalid')
         }
 
-        const verifyPass = await verifyPassHandler(loginDto.password, isUserLogin.password)
+        const verifyPass = await verifyPassHandler(loginDto?.password, isUserLogin?.password)
 
         if (!verifyPass) {
             throw new NotFoundException('The password is invalid')
