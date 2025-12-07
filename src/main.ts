@@ -12,7 +12,9 @@ async function bootstrap() {
     rootPath: join(__dirname, '..', 'uploads/models'),
     serveRoot: '/uploads/models',
   });
+  app.enableCors();
   app.use('/uploads/images', Express.static(join(__dirname, '..', 'uploads/images')));
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
+
