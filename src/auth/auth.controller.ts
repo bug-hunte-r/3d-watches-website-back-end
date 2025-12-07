@@ -25,7 +25,7 @@ export class AuthController {
       maxAge: 1000 * 60 * 60 * 48
     })
 
-    res.json({
+    res.status(201).json({
       newUser
     })
 
@@ -47,7 +47,7 @@ export class AuthController {
       maxAge: 1000 * 60 * 60 * 48
     })
 
-    res.json({
+    res.status(200).json({
       loginnedUser
     })
 
