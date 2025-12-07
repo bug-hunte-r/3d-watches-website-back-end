@@ -1,8 +1,8 @@
-import { ConflictException, Injectable, NotFoundException, Req, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, Req, UnauthorizedException } from '@nestjs/common';
 import { Signupdto } from './Signup-dto/create-signup.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from 'src/models/User';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { hashPassHandler, verifyPassHandler, verifyTokenHandler } from 'src/config/auth-helper';
 import { Logindto } from './Login-dto/create-login.dto';
 import type { Request } from 'express';
@@ -17,6 +17,10 @@ export class AuthService {
 
         if (isUserNameExist) {
             throw new ConflictException('This username or email is already exist')
+        }
+
+        if (!signupDto.username.trim() || !signupDto.email.trim() || !signupDto.password.trim()) {
+            throw new BadRequestException('Datas are not valid')
         }
 
         const hashedPass = await hashPassHandler(signupDto?.password)
