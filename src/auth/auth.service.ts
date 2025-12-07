@@ -41,6 +41,10 @@ export class AuthService {
             throw new NotFoundException('The username or emial is invalid')
         }
 
+        if (!loginDto.identifire.trim() || !loginDto.password.trim()) {
+            throw new BadRequestException('Datas are not valid')
+        }
+
         const verifyPass = await verifyPassHandler(loginDto?.password, isUserLogin?.password)
 
         if (!verifyPass) {
