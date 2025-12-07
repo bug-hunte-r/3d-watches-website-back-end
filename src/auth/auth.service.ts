@@ -19,8 +19,8 @@ export class AuthService {
             throw new ConflictException('This username or email is already exist')
         }
 
-        if (!signupDto.username.trim() || !signupDto.email.trim() || !signupDto.password.trim()) {
-            throw new BadRequestException('Datas are not valid')
+        if ( !signupDto.username || !signupDto.username.trim() || !signupDto.email || !signupDto.email.trim() || !signupDto.password || !signupDto.password.trim() ) {
+            throw new BadRequestException('Datas are not valid');
         }
 
         const hashedPass = await hashPassHandler(signupDto?.password)
@@ -41,8 +41,8 @@ export class AuthService {
             throw new NotFoundException('The username or emial is invalid')
         }
 
-        if (!loginDto.identifire.trim() || !loginDto.password.trim()) {
-            throw new BadRequestException('Datas are not valid')
+        if ( !loginDto.identifire || !loginDto.identifire.trim() || !loginDto.password || !loginDto.password.trim() ) {
+            throw new BadRequestException('Datas are not valid');
         }
 
         const verifyPass = await verifyPassHandler(loginDto?.password, isUserLogin?.password)
@@ -86,6 +86,6 @@ export class AuthService {
             throw new ConflictException('You can not send request for this api')
         }
 
-        return {Message: 'Request sent'}
+        return { Message: 'Request sent' }
     }
 }
