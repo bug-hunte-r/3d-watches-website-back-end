@@ -12,9 +12,11 @@ async function bootstrap() {
     rootPath: join(__dirname, '..', 'uploads/models'),
     serveRoot: '/uploads/models',
   });
-  app.enableCors();
+  app.enableCors({
+    origin: ['https://3d-watch-app.netlify.app'],
+    credentials: true
+  })
   app.use('/uploads/images', Express.static(join(__dirname, '..', 'uploads/images')));
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
-
