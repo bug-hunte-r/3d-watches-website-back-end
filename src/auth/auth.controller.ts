@@ -22,7 +22,7 @@ export class AuthController {
       path: '/',
       secure: true,
       sameSite: 'none',
-      maxAge: 1000 * 60 * 60 * 48
+      maxAge: 10000 * 60 * 60 * 48
     })
 
     return res.json({
@@ -43,7 +43,7 @@ export class AuthController {
       path: '/',
       secure: true,
       sameSite: 'none',
-      maxAge: 1000 * 60 * 60 * 48
+      maxAge: 10000 * 60 * 60 * 48
     })
 
     return res.json({
