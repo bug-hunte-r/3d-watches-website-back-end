@@ -22,12 +22,10 @@ export class AuthController {
       path: '/',
       secure: true,
       sameSite: 'none',
-      maxAge: 10000 * 60 * 60 * 48
+      maxAge: 1000 * 60 * 60 * 48
     })
 
-    return res.json({
-      newUser
-    })
+    return { newUser }
   }
 
   @Post('login')
@@ -43,12 +41,10 @@ export class AuthController {
       path: '/',
       secure: true,
       sameSite: 'none',
-      maxAge: 10000 * 60 * 60 * 48
+      maxAge: 1000 * 60 * 60 * 48
     })
 
-    return res.json({
-      loginnedUser
-    })
+    return { loginnedUser }
 
   }
 
