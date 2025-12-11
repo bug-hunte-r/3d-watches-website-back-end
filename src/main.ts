@@ -19,7 +19,7 @@ async function bootstrap() {
     ],
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type, application/json'
+    allowedHeaders: 'Content-Type, Authorization'
   });
   app.use('/uploads/images', Express.static(join(__dirname, '..', 'uploads/images')));
   await app.listen(process.env.PORT ?? 3000);
