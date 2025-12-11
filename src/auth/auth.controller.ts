@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, HttpCode, Res, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpCode, Res, Req, BadRequestException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Signupdto } from './Signup-dto/create-signup.dto';
 import { tokenGenerator } from 'src/config/auth-helper';
@@ -12,6 +12,10 @@ export class AuthController {
   @Post('signup')
   @HttpCode(201)
   async Sinup(@Body() signupDto: Signupdto, @Res({ passthrough: true }) res: Response) {
+
+    if (!signupDto.username?.trim() || !signupDto.email?.trim() || !signupDto.password?.trim()) {
+      throw new BadRequestException('Datas are not valid');
+    }
 
     const newUser = await this.authService.Signup(signupDto)
 
@@ -32,9 +36,13 @@ export class AuthController {
   @HttpCode(200)
   async Login(@Body() loginDto: Logindto, @Res({ passthrough: true }) res: Response) {
 
+    if (!loginDto.identifire?.trim() || !loginDto.password?.trim()) {
+      throw new BadRequestException('Datas are not valid');
+    }
+
     const loginnedUser = await this.authService.Login(loginDto)
 
-    const token = tokenGenerator({ username: loginDto.identifire, email: loginDto.identifire })
+    const token = tokenGenerator({ usernameOrEmail: loginDto.identifire, })
 
     res.cookie('token', token, {
       httpOnly: true,
@@ -45,7 +53,6 @@ export class AuthController {
     })
 
     return { loginnedUser }
-
   }
 
   @Get('me')
