@@ -19,7 +19,7 @@ export class AuthController {
 
     const newUser = await this.authService.Signup(signupDto)
 
-    const token = tokenGenerator({ username: signupDto?.username, email: signupDto?.email })
+    const token = tokenGenerator({ username: signupDto?.username })
 
     res.cookie('token', token, {
       httpOnly: true,
@@ -42,7 +42,7 @@ export class AuthController {
 
     const loginnedUser = await this.authService.Login(loginDto)
 
-    const token = tokenGenerator({ usernameOrEmail: loginDto.identifire, })
+    const token = tokenGenerator({ username: loginDto.identifire, })
 
     res.cookie('token', token, {
       httpOnly: true,
